@@ -38,6 +38,11 @@ Backpack::Backpack(COLOR color, SIZE size)
     _size = size;
 }
 
+Backpack::~Backpack()
+{
+
+}
+
 std::string Backpack::getColorString()
 {
     switch (_color)
@@ -101,7 +106,7 @@ void Backpack::openBag()
 
     _open = true;
 
-    std::cout << "The " << color << " " << size << "sized bag has been opened. This bag contains:\n";
+    std::cout << "The " << color << " " << size << " sized bag has been opened. This bag contains:\n";
 
     for(size_t i = 0; i < _items.size(); i++)
     {
@@ -116,7 +121,7 @@ void Backpack::closeBag()
 
     _open = false;
 
-    std::cout << "The " << color << " " << size << "sized bag has been opened. This bag contains:\n";
+    std::cout << "The " << color << " " << size << " sized bag has been closed. This bag contains:\n";
     
     for(size_t i = 0; i < _items.size(); i++)
     {
@@ -126,22 +131,53 @@ void Backpack::closeBag()
 
 void Backpack::putIn(std::string item)
 {
-    _items.push_back(item);
-    std::cout << item << " was added!" << std::endl;
+    if (_open)
+    {
+        _items.push_back(item);
+        std::cout << item << " was added!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Bag is not open!" << std::endl;
+    }
+
 }
 
 void Backpack::takeOut(std::string item)
 {
-    for(size_t i = 0; i < _items.size(); i++)
+
+    if (_open)
     {
-        if (_items[i] == item)
+        for(size_t i = 0; i < _items.size(); i++)
         {
-            _items.erase(_items.begin() + i);
-            std::cout << _items[i] << " was removed!" << std::endl;
+            if (_items[i] == item)
+            {
+                _items.erase(_items.begin() + i);
+                std::cout << _items[i] << " was removed!" << std::endl;
+            }
         }
     }
+    else
+    {
+        std::cout << "Bag is not open!" << std::endl;
+    }
+
 }
 
 int main()
 {
+    Backpack uno(BLUE, SMALL);
+    Backpack dos(RED, MEDIUM);
+    Backpack tres(GREEN, LARGE);
+
+    tres.openBag();
+    tres.putIn("Lunch");
+    tres.putIn("Jacket");
+    tres.closeBag();
+    tres.openBag();
+    tres.takeOut("Jacket");
+    tres.closeBag();
+
+    size_t a;
+    std::cin >> a;
 }
